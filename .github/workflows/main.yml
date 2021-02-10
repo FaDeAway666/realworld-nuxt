@@ -46,14 +46,14 @@ jobs:
 
     # 部署到服务器
     - name: Deploy
-      uses: appleboy/ssh-action@main
+      uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
         script: |
-          cd /root/realworld-nuxtjs
+          cd /root/realworld
           wget https://github.com/FaDeAway666/realworld-nuxt/releases/latest/download/release.tgz -O release.tgz
           tar zxvf release.tgz
           npm install --production
