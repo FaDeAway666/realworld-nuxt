@@ -35,7 +35,7 @@ module.exports = {
               component: resolve(__dirname, 'pages/settings/')
             },
             {
-              path: 'create',
+              path: 'create/:slug?',
               name: 'create',
               component: resolve(__dirname, 'pages/create/')
             },

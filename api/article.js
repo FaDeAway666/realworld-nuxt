@@ -38,3 +38,16 @@ export const articleDetail = slug => request({
   method: 'GET',
   url: `/api/articles/${slug}`
 })
+
+// 删除文章
+export const deleteArticle = slug => request({
+  method: 'DELETE',
+  url: `/api/articles/${slug}`
+})
+
+// 发布文章
+export const postArticle = data => request({
+  method: 'POST',
+  url: '/api/articles',
+  data
+})
