@@ -16,7 +16,7 @@
       <i class="ion-plus-round"></i>
       &nbsp;
       {{ article.author.following ? 'Unfollow' : 'Follow' }} {{ article.author.username }} 
-      <span class="counter">(2)</span>
+      <!-- <span class="counter">(2)</span> -->
     </button>
     &nbsp;&nbsp;
     <button class="btn btn-sm btn-outline-primary"

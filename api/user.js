@@ -26,7 +26,20 @@ export const unfollow = username => request({
 })
 
 // 获取用户资料
-export const profile = username => request({
+export const getProfile = username => request({
   method: 'GET',
   url: `/api/profiles/${username}`
+})
+
+// 获取当前用户
+export const getCurrUser = () => request({
+  method: 'GET',
+  url: '/api/user'
+})
+
+// 更新用户信息
+export const updateUser = data => request({
+  method: 'PUT',
+  url: '/api/user',
+  data
 })

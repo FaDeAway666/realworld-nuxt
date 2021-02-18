@@ -4,49 +4,60 @@
       <div class="row">
         <div class="col-md-6 offset-md-3 col-xs-12">
           <h1 class="text-xs-center">Your Settings</h1>
-
-          <form>
-            <fieldset>
-              <fieldset class="form-group">
-                <input
-                  class="form-control"
-                  type="text"
-                  placeholder="URL of profile picture"
-                />
+          <template v-if="userForm">
+            <form>
+              <fieldset>
+                <fieldset class="form-group">
+                  <input
+                    v-model="userForm.image"
+                    class="form-control"
+                    type="text"
+                    placeholder="URL of profile picture"
+                  />
+                </fieldset>
+                <fieldset class="form-group">
+                  <input
+                    v-model="userForm.username"
+                    class="form-control form-control-lg"
+                    type="text"
+                    placeholder="Your Name"
+                  />
+                </fieldset>
+                <fieldset class="form-group">
+                  <textarea
+                    v-model="userForm.bio"
+                    class="form-control form-control-lg"
+                    rows="8"
+                    placeholder="Short bio about you"
+                  ></textarea>
+                </fieldset>
+                <fieldset class="form-group">
+                  <input
+                    v-model="userForm.email"
+                    class="form-control form-control-lg"
+                    type="text"
+                    placeholder="Email"
+                  />
+                </fieldset>
+                <fieldset class="form-group">
+                  <input
+                    v-model="userForm.password"
+                    class="form-control form-control-lg"
+                    type="password"
+                    placeholder="New Password"
+                  />
+                </fieldset>
+                <button class="btn btn-lg btn-primary pull-xs-right"
+                  @click.stop.prevent="update">
+                  Update Settings
+                </button>
               </fieldset>
-              <fieldset class="form-group">
-                <input
-                  class="form-control form-control-lg"
-                  type="text"
-                  placeholder="Your Name"
-                />
-              </fieldset>
-              <fieldset class="form-group">
-                <textarea
-                  class="form-control form-control-lg"
-                  rows="8"
-                  placeholder="Short bio about you"
-                ></textarea>
-              </fieldset>
-              <fieldset class="form-group">
-                <input
-                  class="form-control form-control-lg"
-                  type="text"
-                  placeholder="Email"
-                />
-              </fieldset>
-              <fieldset class="form-group">
-                <input
-                  class="form-control form-control-lg"
-                  type="password"
-                  placeholder="Password"
-                />
-              </fieldset>
-              <button class="btn btn-lg btn-primary pull-xs-right">
-                Update Settings
-              </button>
-            </fieldset>
-          </form>
+            </form>
+            <hr>
+            <button class="btn btn-outline-danger" @click.stop.prevent="logout">
+              Or click here to logout.
+            </button>
+          </template>
         </div>
       </div>
     </div>
@@ -54,9 +65,46 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+import { getCurrUser, updateUser } from '@/api/user'
+const Cookie = process.client ? require('js-cookie') : undefined
 export default {
   middleware: 'authenticated',
-  name: 'settingsPage'
+  name: 'settingsPage',
+  computed: {
+    ...mapState(['user'])
+  },
+  async mounted () {
+    // 如果userForm为null，再获取当前user信息
+    if (!this.userForm) {
+      const { data } = await getCurrUser()
+      this.userForm = data.user
+    }
+  },
+  data () {
+    return {
+      userForm: this.user || null
+    }
+  },
+  methods: {
+    // 更新user后跳转profile页面
+    async update () {
+      const { data } = await updateUser({
+        user: this.userForm
+      })
+      this.$router.push({
+        name: 'profile',
+        params: {
+          username: data.user.username
+        }
+      })
+    },
+    logout () {
+      Cookie.remove('user')
+      this.$store.commit('setUser', null)
+      this.$router.push('/')
+    }
+  }
 };
 </script>
 
