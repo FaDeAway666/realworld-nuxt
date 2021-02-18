@@ -77,8 +77,9 @@ export default {
         })
 
         console.log(data.user, 'user')
+        // 设置store
         this.$store.commit('setUser', data.user)
-
+        // 设置cookie
         Cookie.set('user', data.user)
 
         this.$router.push('/')

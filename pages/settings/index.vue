@@ -117,6 +117,7 @@ export default {
         }
       })
     },
+    // 登出
     logout () {
       this.disable = true
       Cookie.remove('user')

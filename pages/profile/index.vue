@@ -103,7 +103,6 @@ import { mapState } from 'vuex'
 export default {
   name: 'profilePage',
   async asyncData ({ params, query }) {
-    console.log(params, 'params')
     const page = (query && query.page) || 1
     const limit = 5
     const [ profileRes, articleRes ] = await Promise.all([
@@ -111,7 +110,8 @@ export default {
       articleList({
         limit: limit,
         offset: (page - 1) * limit,
-        [params.favorite ? 'favorited' : 'author']: params.username
+        // 如果是favorite的文章，修改查询条件
+        [params.favorite ? 'favorited' : 'author']: params.username 
       })
     ])
 
