@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import { postArticle, articleDetail } from '@/api/article'
+import { postArticle } from '@/api/article'
 export default {
   middleware: 'authenticated',
   name: "createArticle",
@@ -77,7 +77,7 @@ export default {
     }
   },
   async created () {
-    const { slug, article} = this.$route.params
+    const { slug, article } = this.$route.params
     if (slug) {
       // const { data } = await articleDetail(slug)
       this.editorForm = article
