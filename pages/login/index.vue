@@ -31,7 +31,8 @@
             <fieldset class="form-group">
               <input v-model="user.password" class="form-control form-control-lg" type="password" placeholder="Password">
             </fieldset>
-            <button class="btn btn-lg btn-primary pull-xs-right">
+            <button class="btn btn-lg btn-primary pull-xs-right"
+              :disabled="disable">
               {{ !isLogin ? 'Sign up' : 'Sign in'}}
             </button>
           </form>
@@ -61,11 +62,13 @@ export default {
         email: '',
         password: ''
       },
-      error: {}
+      error: {},
+      disable: false
     }
   },
   methods: {
     async onSubmit () {
+      this.disable = true
       try {
         const { data } = this.isLogin ? await login({
           user: this.user
